@@ -40,26 +40,24 @@ module SimpleForm
     # In the example above, hint defaults to false, which means it won't automatically
     # do the lookup anymore. It will only be triggered when :hint is explicitly set.
     class Builder
+
       def initialize(options)
         @options    = options
         @components = []
       end
 
       def use(name, options=nil, &block)
-        if block_given?
-          ActiveSupport::Deprecation.warn "Passing a block to use is deprecated. " \
-            "Please use wrapper instead of use."
-          return wrapper(name, options, &block)
+        if options && (SimpleForm::FormBuilder::ATTRIBUTE_COMPONENTS.include?(name) \
+                   && !(options.except(:wrap_with).keys.empty?))
+          raise ArgumentError, "Invalid options #{options.except(:wrap_with).keys.inspect} passed to #{name}."
         end
 
-        if options && options.keys != [:wrap_with]
-          ActiveSupport::Deprecation.warn "Passing :tag, :class and others to use is deprecated. " \
-            "Please invoke b.use #{name.inspect}, :wrap_with => #{options.inspect} instead."
-          options = { :wrap_with => options }
-        end
-
-        if options && wrapper = options[:wrap_with]
-          @components << Single.new(name, wrapper)
+        if options && options[:wrap_with]
+          @options[:"#{name}_html"] = options.except(:wrap_with)
+          @components << Single.new(name, options[:wrap_with])
+        elsif options
+          @options[:"#{name}_html"] = options
+          @components << name
         else
           @components << name
         end
