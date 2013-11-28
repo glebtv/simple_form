@@ -11,7 +11,7 @@ module SimpleForm
       end
 
       def render(input)
-        input.options.reverse_merge!(@options)
+        input.options.merge!(@options.deep_merge(input.options))
         super
       end
 

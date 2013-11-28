@@ -66,7 +66,7 @@ module SimpleForm
 
         @input_html_classes = @html_classes.dup
         @input_html_options = {}
-        
+
         if SimpleForm.input_class && !input_html_classes.empty?
           input_html_classes << SimpleForm.input_class
         end
@@ -135,7 +135,7 @@ module SimpleForm
       def html_options_for(namespace, css_classes)
         html_options = options[:"#{namespace}_html"]
         html_options = html_options ? html_options.dup : {}
-        html_options.reverse_merge!(@builder.wrapper.options[:"#{namespace}_html"] || {})
+        html_options = (@builder.wrapper.options[:"#{namespace}_html"] || {}).deep_merge(html_options)
         css_classes << html_options[:class] if html_options.key?(:class)
         html_options[:class] = css_classes.uniq unless css_classes.empty?
         html_options

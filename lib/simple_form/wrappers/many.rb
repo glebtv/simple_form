@@ -58,11 +58,11 @@ module SimpleForm
         klass = html_classes(input, options)
         opts  = html_options(options)
         opts[:class] = (klass << opts[:class]).join(' ').strip unless klass.empty?
-        input.template.content_tag(tag, content, opts)
+        input.template.content_tag(tag, content, opts.reject{|k,v| k =~ /_html/ })
       end
 
       def html_options(options)
-        options[:"#{namespace}_html"] || {}
+        (options[:"#{namespace}_html"] || {}).deep_dup
       end
 
       def html_classes(input, options)
