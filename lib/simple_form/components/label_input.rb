@@ -20,7 +20,7 @@ module SimpleForm
       def apply_label_input_options(options)
         [:input_html, :label_html].each do |key|
           if options.has_key?(key)
-            options[key].merge! options.fetch(:label_input_html, {})
+            options[key].reverse_merge! options.fetch(:label_input_html, {})
           end
         end
       end
