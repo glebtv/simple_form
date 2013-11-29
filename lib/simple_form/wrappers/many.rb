@@ -70,7 +70,7 @@ module SimpleForm
       end
 
       def html_options(options)
-        (options[:"#{namespace}_html"] || {}).deep_dup
+        (@defaults[:html] || {}).update(options[:"#{namespace}_html"] || {}).deep_dup
       end
 
       def html_classes(input, options)
