@@ -55,9 +55,17 @@ module SimpleForm
         tag = (namespace && options[:"#{namespace}_tag"]) || @defaults[:tag]
         return content unless tag
 
-        klass = html_classes(input, options)
+        default_class = html_classes(input, options)
         opts  = html_options(options)
-        opts[:class] = (klass << opts[:class]).join(' ').strip unless klass.empty?
+
+        # Instead of appending, let it override
+        opts[:class] = if !opts[:class].blank?
+          opts[:class]
+        else
+          default_class
+        end
+        #opts[:class] = (default_class << opts[:class]).join(' ').strip unless default_class.empty?
+
         input.template.content_tag(tag, content, opts.reject{|k,v| k =~ /_html/ })
       end
 
