@@ -178,8 +178,7 @@ module SimpleForm
 
         # Append a hidden field to make sure something will be sent back to the
         # server if all checkboxes are unchecked.
-        hidden_name = html_options[:name] || "#{object_name}[#{attribute}][]"
-        hidden = @template.hidden_field_tag(hidden_name, "", :id => nil)
+        hidden = template.hidden_field_tag("#{indexed_object_name}[#{attribute}][]", "", :id => nil)
 
         wrap_rendered_collection(rendered_collection + hidden, options)
       end
@@ -207,6 +206,19 @@ module SimpleForm
       end
 
       private
+
+      def indexed_object_name
+        object_name = self.object_name
+
+        index = if options.has_key?(:index)
+          "[#{options[:index]}]"
+        elsif defined?(@auto_index)
+          self.object_name = @object_name.to_s.sub(/\[\]$/,"")
+          "[#{@auto_index}]"
+        end
+
+        object_name.to_s + index.to_s
+      end
 
       def instantiate_collection_builder(builder_class, attribute, item, value, text, html_options)
         builder_class.new(self, attribute, item,
