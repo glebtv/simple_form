@@ -109,9 +109,14 @@ module SimpleForm
       options = @defaults.deep_dup.deep_merge(options) if @defaults
 
       input   = find_input(attribute_name, options, &block)
-      wrapper = find_wrapper(input.input_type, options)
 
-      wrapper.render input
+      if block_given? && block.arity != 0
+        wrapper = SimpleForm::Wrappers::Root.new([], {})
+        wrapper.render input
+      else
+        wrapper = find_wrapper(input.input_type, options)
+        wrapper.render input
+      end
     end
     alias :attribute :input
 
@@ -129,14 +134,19 @@ module SimpleForm
     #     <input class="string required" id="user_name" maxlength="100"
     #        name="user[name]" size="100" type="text" value="Carlos" />
     #
-    def input_field(attribute_name, options={})
+    def input_field(attribute_name, options={}, &block)
       options = options.dup
       options[:input_html] = options.except(:as, :collection, :label_method, :value_method, *ATTRIBUTE_COMPONENTS)
       options = @defaults.deep_dup.deep_merge(options) if @defaults
 
-      input      = find_input(attribute_name, options)
+      input      = find_input(attribute_name, options, &block)
       wrapper    = find_wrapper(input.input_type, options)
-      components = (wrapper.components & ATTRIBUTE_COMPONENTS) + [:input]
+
+      if block_given? && block.arity != 0
+        components = []
+      else
+        components = (wrapper.components & ATTRIBUTE_COMPONENTS) + [:input]
+      end
 
       SimpleForm::Wrappers::Root.new(components, wrapper.options.merge(wrapper: false)).render input
     end
@@ -373,10 +383,10 @@ module SimpleForm
         input_type = :radio_buttons
       end
 
-      if block_given?
+      if block_given? && block.arity == 0
         SimpleForm::Inputs::BlockInput.new(self, attribute_name, column, input_type, options, &block)
       else
-        find_mapping(input_type).new(self, attribute_name, column, input_type, options)
+        find_mapping(input_type).new(self, attribute_name, column, input_type, options, &block)
       end
     end
 

@@ -24,10 +24,14 @@ module SimpleForm
         content = "".html_safe
         options = input.options
 
-        components.each do |component|
-          next if options[component] == false
-          rendered = component.respond_to?(:render) ? component.render(input) : input.send(component)
-          content.safe_concat rendered.to_s if rendered
+        if components.empty? && input.block
+          content.safe_concat input.input_from_block
+        else
+          components.each do |component|
+            next if options[component] == false
+            rendered = component.respond_to?(:render) ? component.render(input) : input.send(component)
+            content.safe_concat rendered.to_s if rendered
+          end
         end
 
         wrap(input, options, content)

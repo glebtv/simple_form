@@ -27,6 +27,8 @@ module SimpleForm
       attr_reader :attribute_name, :column, :input_type, :reflection,
                   :options, :input_html_options, :input_html_classes, :html_classes
 
+      attr_reader :builder, :block
+
       delegate :template, :object, :object_name, :lookup_model_names, :lookup_action, :to => :@builder
 
       class_attribute :default_options
@@ -50,7 +52,7 @@ module SimpleForm
       # Usually disabled, needs to be enabled explicitly passing true as option.
       disable :maxlength, :placeholder, :pattern, :min_max
 
-      def initialize(builder, attribute_name, column, input_type, options = {})
+      def initialize(builder, attribute_name, column, input_type, options = {}, &block)
         super
 
         options             = options.dup
@@ -61,6 +63,7 @@ module SimpleForm
         @reflection         = options.delete(:reflection)
         @options            = options.reverse_merge!(self.class.default_options)
         @required           = calculate_required
+        @block              = block
 
         # Notice that html_options_for receives a reference to input_html_classes.
         # This means that classes added dynamically to input_html_classes will
@@ -86,6 +89,10 @@ module SimpleForm
 
       def input
         raise NotImplementedError
+      end
+
+      def input_from_block
+        template.capture(self, &@block)
       end
 
       def input_options
