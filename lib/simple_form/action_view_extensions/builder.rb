@@ -255,7 +255,7 @@ module SimpleForm
       end
 
       def render_collection(collection, value_method, text_method, options={}, html_options={}) #:nodoc:
-        item_wrapper_tag   = options.fetch(:item_wrapper_tag, :span)
+        item_wrapper_tag   = options[:item_wrapper_tag]
         item_wrapper_class = options[:item_wrapper_class]
 
         collection.map do |item|
