@@ -88,8 +88,8 @@ SimpleForm.setup do |config|
   # SimpleForm will force this option to be a label.
   # config.item_wrapper_tag = :span
 
-  # You can define a class to use in all item wrappers. Defaulting to none.
-  # config.item_wrapper_class = nil
+  # You can define html attribuets to use in all item wrappers. Defaulting to none.
+  # config.item_wrapper_html = {}
 
   # How the label text should be generated altogether with the required text.
   # config.label_text = lambda { |label, required| "#{required} #{label}" }
@@ -143,7 +143,4 @@ SimpleForm.setup do |config|
   # Default class for inputs
   # config.input_class = nil
 
-  # Defines if the default input wrapper class should be included in radio
-  # collection wrappers.
-  # config.include_default_input_wrapper_class = true
 end

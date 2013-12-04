@@ -54,9 +54,9 @@ module SimpleForm
   mattr_accessor :item_wrapper_tag
   @@item_wrapper_tag = :span
 
-  # You can define the class to use on all item wrappers, defaulting to none.
-  mattr_accessor :item_wrapper_class
-  @@item_wrapper_class = nil
+  # You can define the html to use on all item wrappers, defaulting to none.
+  mattr_accessor :item_wrapper_html
+  @@item_wrapper_html = {}
 
   # How the label text should be generated altogether with the required text.
   mattr_accessor :label_text
@@ -138,10 +138,6 @@ module SimpleForm
   # Adds a class to each generated inputs
   mattr_accessor :input_class
   @@input_class = nil
-
-  # Defines if an input wrapper class should be included or not
-  mattr_accessor :include_default_input_wrapper_class
-  @@include_default_input_wrapper_class = true
 
   ## WRAPPER CONFIGURATION
   # The default wrapper to be used by the FormBuilder.

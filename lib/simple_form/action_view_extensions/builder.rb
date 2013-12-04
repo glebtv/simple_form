@@ -88,7 +88,7 @@ module SimpleForm
       #
       #   * item_wrapper_tag         => the tag to wrap each item in the collection.
       #
-      #   * item_wrapper_class       => the CSS class to use for item_wrapper_tag
+      #   * item_wrapper_html       => the html attributes to use for item_wrapper_tag
       #
       #   * a block                  => to generate the label + radio or any other component.
       #
@@ -162,7 +162,7 @@ module SimpleForm
       #
       #   * item_wrapper_tag         => the tag to wrap each item in the collection.
       #
-      #   * item_wrapper_class       => the CSS class to use for item_wrapper_tag
+      #   * item_wrapper_html         => the html attributes to use for item_wrapper_tag
       #
       #   * a block                  => to generate the label + check box or any other component.
       #
@@ -260,7 +260,7 @@ module SimpleForm
 
       def render_collection(collection, value_method, text_method, options={}, html_options={}) #:nodoc:
         item_wrapper_tag   = options[:item_wrapper_tag]
-        item_wrapper_class = options[:item_wrapper_class]
+        item_wrapper_html = options[:item_wrapper_html] || {}
 
         collection.map do |item|
           value = value_for_collection(item, value_method)
@@ -269,7 +269,7 @@ module SimpleForm
 
           rendered_item = yield item, value, text, default_html_options
 
-          item_wrapper_tag ? @template.content_tag(item_wrapper_tag, rendered_item, :class => item_wrapper_class) : rendered_item
+          item_wrapper_tag ? @template.content_tag(item_wrapper_tag, rendered_item, :class => item_wrapper_html) : rendered_item
         end.join.html_safe
       end
 

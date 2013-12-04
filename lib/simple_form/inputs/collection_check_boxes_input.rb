@@ -13,8 +13,8 @@ module SimpleForm
         collection_builder.check_box + collection_builder.text
       end
 
-      def item_wrapper_class
-        "checkbox"
+      def item_wrapper_html
+        {class: "checkbox"}
       end
     end
   end

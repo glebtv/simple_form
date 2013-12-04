@@ -21,9 +21,9 @@ module SimpleForm
 
       def apply_default_collection_options!(options)
         options[:item_wrapper_tag] ||= options.fetch(:item_wrapper_tag, SimpleForm.item_wrapper_tag)
-        options[:item_wrapper_class] = [
-          item_wrapper_class, options[:item_wrapper_class], SimpleForm.item_wrapper_class
-        ].compact.presence if SimpleForm.include_default_input_wrapper_class
+
+        options[:item_wrapper_html] ||= {}
+        options[:item_wrapper_html].reverse_merge!(SimpleForm.item_wrapper_html)
 
         options[:collection_wrapper_tag] ||= options.fetch(:collection_wrapper_tag, SimpleForm.collection_wrapper_tag)
 
@@ -32,7 +32,7 @@ module SimpleForm
       end
 
       # Force item wrapper to be a label when using nested boolean, to support
-      # configuring classes through :item_wrapper_class, and to maintain
+      # configuring html through :item_wrapper_html, and to maintain
       # compatibility with :inline style and default :item_wrapper_tag.
       def apply_nested_boolean_collection_options!(options)
         options[:item_wrapper_tag] = :label
@@ -48,8 +48,8 @@ module SimpleForm
         collection_builder.radio_button + collection_builder.text
       end
 
-      def item_wrapper_class
-        "radio"
+      def item_wrapper_html
+        {class: "radio"}
       end
 
       # Do not attempt to generate label[for] attributes by default, unless an
