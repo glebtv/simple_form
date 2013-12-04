@@ -109,12 +109,12 @@ module SimpleForm
       options = @defaults.deep_dup.deep_merge(options) if @defaults
 
       input   = find_input(attribute_name, options, &block)
+      wrapper = find_wrapper(input.input_type, options)
 
       if block_given? && block.arity != 0
-        wrapper = SimpleForm::Wrappers::Root.new([], {})
+        wrapper = SimpleForm::Wrappers::Root.new([], wrapper.defaults)
         wrapper.render input
       else
-        wrapper = find_wrapper(input.input_type, options)
         wrapper.render input
       end
     end
