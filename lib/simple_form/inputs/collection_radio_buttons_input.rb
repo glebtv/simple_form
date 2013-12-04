@@ -26,9 +26,9 @@ module SimpleForm
         ].compact.presence if SimpleForm.include_default_input_wrapper_class
 
         options[:collection_wrapper_tag] ||= options.fetch(:collection_wrapper_tag, SimpleForm.collection_wrapper_tag)
-        options[:collection_wrapper_class] = [
-          options[:collection_wrapper_class], SimpleForm.collection_wrapper_class
-        ].compact.presence
+
+        options[:collection_wrapper_html] ||= {}
+        options[:collection_wrapper_html].reverse_merge!(SimpleForm.collection_wrapper_html)
       end
 
       # Force item wrapper to be a label when using nested boolean, to support

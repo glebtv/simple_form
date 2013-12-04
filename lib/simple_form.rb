@@ -44,9 +44,9 @@ module SimpleForm
   mattr_accessor :collection_wrapper_tag
   @@collection_wrapper_tag = nil
 
-  # You can define the class to use on all collection wrappers, defaulting to none.
-  mattr_accessor :collection_wrapper_class
-  @@collection_wrapper_class = nil
+  # You can define the html to use on all collection wrappers, defaulting to none.
+  mattr_accessor :collection_wrapper_html
+  @@collection_wrapper_html = {}
 
   # You can wrap each item in a collection of radio/check boxes with a tag,
   # defaulting to none. Please note that when using :boolean_style = :nested,
