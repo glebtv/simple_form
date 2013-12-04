@@ -19,6 +19,10 @@ module SimpleForm
       def label(label_html_options={}, &block)
         @form_builder.label(@sanitized_attribute_name, @text, label_html_options, &block)
       end
+
+      def hint(text, options = {})
+        @form_builder.hint(text, options)
+      end
     end
 
     # Handles generating an instance of radio + label for collection_radio_buttons.
