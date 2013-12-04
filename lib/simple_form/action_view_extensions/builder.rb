@@ -269,7 +269,7 @@ module SimpleForm
 
           rendered_item = yield item, value, text, default_html_options
 
-          item_wrapper_tag ? @template.content_tag(item_wrapper_tag, rendered_item, :class => item_wrapper_html) : rendered_item
+          item_wrapper_tag ? @template.content_tag(item_wrapper_tag, rendered_item, item_wrapper_html) : rendered_item
         end.join.html_safe
       end
 
