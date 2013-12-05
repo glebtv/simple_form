@@ -29,7 +29,7 @@ module SimpleForm
 
       attr_reader :builder, :block
 
-      delegate :template, :object, :object_name, :lookup_model_names, :lookup_action, :to => :@builder
+      delegate :template, :object, :object_name, :indexed_object_name, :lookup_model_names, :lookup_action, :to => :@builder
 
       class_attribute :default_options
       self.default_options = {}
