@@ -5,9 +5,8 @@ module SimpleForm
         if nested_boolean_style?
           label_options = label_html_options.dup
           label_options[:label] = ''
-
           build_hidden_field_for_checkbox +
-            @builder.label(nil, label_options) {
+            @builder.label(label_target, label_options) {
               build_check_box_without_hidden_field + inline_label
             }
         else
